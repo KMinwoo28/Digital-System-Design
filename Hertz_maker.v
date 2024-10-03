@@ -1,0 +1,15 @@
+module Hertz_maker(CLK_50MHz, reset, Hertz);
+parameter MOD = 25000000;
+parameter BITS = $clog2(MOD);
+
+input CLK_50MHz, reset;
+output Hertz;
+
+wire carry_out;
+wire d, inverse_Hertz;
+assign inverse_Hertz = ~Hertz;
+
+counter #(MOD, BITS) func1(.clk(CLK_50MHz), .rst(reset), .carry_out(carry_out));
+d_flip_flop_async_Reset func2(carry_out, reset, inverse_Hertz, Hertz);
+
+endmodule

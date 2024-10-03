@@ -1,0 +1,74 @@
+module Car_Signal(CLK_2Hz, Count_out, Signal_Pos, light_out_time, led_cnt );
+input CLK_2Hz;
+input [4:0] Count_out;
+input [1:0] Signal_Pos;
+input light_out_time;
+output reg [11:0] led_cnt;
+always @ (CLK_2Hz or Count_out or Signal_Pos or light_out_time)
+	begin
+		if(light_out_time == 1)
+			begin
+				led_cnt[0] = 0;
+				led_cnt[1] = CLK_2Hz;
+				led_cnt[2] = 0;
+				led_cnt[3] = 0;
+				led_cnt[4] = CLK_2Hz;
+				led_cnt[5] = 0;
+				led_cnt[6] = 0;
+				led_cnt[7] = CLK_2Hz;
+				led_cnt[8] = 0;
+				led_cnt[9] = 0;
+				led_cnt[10] = CLK_2Hz;
+				led_cnt[11] = 0;
+			end
+		else
+			begin
+				if(Signal_Pos == 0)
+					begin
+						if(Count_out > 2)
+							begin
+								led_cnt = 12'b001_100_100_100;
+							end
+						if(Count_out <= 2)
+							begin
+								led_cnt = 12'b010_100_100_100;
+							end
+					end
+				if(Signal_Pos == 1)
+					begin
+						if(Count_out > 2)
+							begin
+								led_cnt = 12'b100_001_100_100;
+							end
+						if(Count_out <= 2)
+							begin
+								led_cnt = 12'b100_010_100_100;
+							end
+					end
+				if(Signal_Pos == 2)
+					begin
+						if(Count_out > 2)
+							begin
+								led_cnt = 12'b100_100_001_100;
+							end
+						if(Count_out <= 2)
+							begin
+								led_cnt = 12'b100_100_010_100;
+							end
+					end
+				if(Signal_Pos == 3)
+					begin
+						if(Count_out > 2)
+							begin
+								led_cnt = 12'b100_100_100_001;
+							end
+						if(Count_out <= 2)
+							begin
+								led_cnt = 12'b100_100_100_010;
+							end
+					end
+			end
+		end
+	endmodule
+					
+				
